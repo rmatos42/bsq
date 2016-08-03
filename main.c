@@ -36,6 +36,17 @@ int		main(void)
 	printf("empty: %c\n", dyn_arr->empty);
 	printf("obstacle: %c\n", dyn_arr->obstacle);
 	printf("square: %c\n", dyn_arr->square);
+	printf("%i\n", dyn_arr->max_square_size);
 	print_result(dyn_arr);
+	int ix = 0;
+	int iy = 0;
+	while(iy < dyn_arr->rows)
+	{
+		ix = 0;
+		while (ix < dyn_arr->cols)
+			printf("%i", dyn_arr->num_grid[iy][ix++]);
+		printf("\n");
+		iy++;
+	}
 	return (0);
 }

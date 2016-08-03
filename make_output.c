@@ -38,7 +38,11 @@ char	get_char(t_dynamic_result *dyn_arr, int x, int y)
 			return (dyn_arr->empty);
 	}
 	else
+	{
+		if (is_big_square(dyn_arr, x, y))
+			return (dyn_arr->square);
 		return (dyn_arr->obstacle);
+	}
 }
 
 int		is_big_square(t_dynamic_result *dyn_arr, int x, int y)

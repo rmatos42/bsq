@@ -79,8 +79,17 @@ t_dynamic_result	*dynamic_array(char *buf)
 			{
 				if (buf[i] == dyn_arr->obstacle)
 					dyn_arr->num_grid[iy][ix] = 0;
-				if (buf[i] == dyn_arr->empty)
+				else if (buf[i] == dyn_arr->empty)
+				{
 					dyn_arr->num_grid[iy][ix] = 1;
+					if (dyn_arr->num_grid[iy][ix] > dyn_arr->max_square_size)
+					{
+						dyn_arr->x_loc = ix;
+						dyn_arr->y_loc = iy;
+						dyn_arr->max_square_size = dyn_arr->num_grid[iy][ix];
+					}
+				}
+				ix++;
 			}
 			else
 			{
@@ -96,15 +105,15 @@ t_dynamic_result	*dynamic_array(char *buf)
 						dyn_arr->max_square_size = dyn_arr->num_grid[iy][ix];
 					}
 				}
+				ix++;
 			}
 		}
-		ix++;
 		i++;
 
 	}
 	end = clock();
 	printf("time: %f\n", (end-start)/(double)CLOCKS_PER_SEC);
-;	return (dyn_arr);
+	return (dyn_arr);
 }
 
 t_dynamic_result	*set_qualities(char *buf)
@@ -126,7 +135,7 @@ t_dynamic_result	*set_qualities(char *buf)
 		dyn_arr->rows += (buf[i--] - '0') * j;
 		j *= 10;
 	}
-	dyn_arr->max_square_size = 1;
+	dyn_arr->max_square_size = 0;
 	dyn_arr->square = buf[len - 1];
 	dyn_arr->obstacle = buf[len - 2];
 	dyn_arr->empty = buf[len - 3];
