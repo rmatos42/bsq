@@ -12,37 +12,29 @@
 
 #include "bsq_head.h"
 
-#define BUF_SIZE 100000
+#define BUF_SIZE 32000
 
 #include <stdio.h>
 int		main(void)
 {
-	char *buf;
-	int ret;
-	int i;
+	char *raw_input;
+	int bytes_read;
+	int	fd;
 	t_grid *grid;
 	t_dynamic_result *dyn_arr;
-
-	i = 0;
-	buf = malloc(BUF_SIZE + 1);
-	while (i < (BUF_SIZE + 1))
-		buf[i++] = '\0';
-	while ((ret = (read(0, buf, BUF_SIZE)) > 0))
-		buf += ret;
-	grid = set_grid_qualities(buf);
-	i = 0;
-	while (grid->table[i] != 0)
-		printf("%s\n", grid->table[i++]);
-	dyn_arr = dynamic_array(grid);
-	int ix = 0;
-	int iy = 0;
-	while (iy < grid->rows)
+	char buf[BUF_SIZE];
+	fd = 0 + 1;
+	raw_input = (char *)malloc(sizeof(char) * 1);
+	raw_input[0] = '\0';
+	while ((bytes_read = read(0, buf, BUF_SIZE)) > 0)
 	{
-		ix = 0;
-		while (ix < grid->cols)
-			printf("%i ", dyn_arr->num_grid[iy][ix++]);
-		printf("\n");
-		iy++;
+		buf[bytes_read] = '\0';
+		raw_input = buf_cat(raw_input, buf);
 	}
+	grid = set_grid_qualities(raw_input);
+	dyn_arr = dynamic_array(grid);
+	printf("Biggest square: %i x %i\n", dyn_arr->max_square_size, dyn_arr->max_square_size);
+	printf("x: %i, y: %i\n", dyn_arr->x_loc, dyn_arr->y_loc);
+	print_result(dyn_arr, grid);
 	return (0);
 }

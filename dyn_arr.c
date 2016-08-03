@@ -30,6 +30,7 @@ t_dynamic_result *dynamic_array(t_grid *grid)
 	int ix;
 	int iy;
 
+	dyn_grid = malloc(sizeof(t_dynamic_result));
 	dyn_grid->max_square_size = 1;
 	iy = 0;
 	dyn_grid->num_grid = (int **)malloc(sizeof(int *) * grid->rows);
@@ -50,7 +51,11 @@ t_dynamic_result *dynamic_array(t_grid *grid)
 			{
 				dyn_grid->num_grid[iy][ix] = get_min(dyn_grid->num_grid, ix, iy) + 1;
 				if (dyn_grid->num_grid[iy][ix] > dyn_grid->max_square_size)
+				{
+					dyn_grid->x_loc = ix;
+					dyn_grid->y_loc = iy;
 					dyn_grid->max_square_size = dyn_grid->num_grid[iy][ix];
+				}
 			}
 			else
 				dyn_grid->num_grid[iy][ix] = 0;
@@ -60,4 +65,3 @@ t_dynamic_result *dynamic_array(t_grid *grid)
 	}
 	return (dyn_grid);
 }
-

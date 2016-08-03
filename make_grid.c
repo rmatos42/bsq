@@ -20,7 +20,7 @@ char	**get_grid(char *buf, int x, int y)
 	int		i;
 	int		past_first;
 
-	i = -1;
+	i = 0;
 	ix = 0;
 	iy = 0;
 	past_first = 0;
@@ -64,26 +64,26 @@ int		get_xdimen(char *buf)
 	return (x);
 }
 
-int		get_ydimen(char *buf)
-{
-	int i;
-	int y;
-	int past_first;
+// int		get_ydimen(char *buf)
+// {
+// 	int i;
+// 	int y;
+// 	int past_first;
 
-	i = 0;
-	y = 0;
-	past_first = 0;
+// 	i = 0;
+// 	y = 0;
+// 	past_first = 0;
 
-	while (buf[i] != '\0')
-	{
-		if (past_first && buf[i] == '\n')
-			y++;
-		else if (buf[i] == '\n')
-			past_first = 1;
-		i++;
-	}
-	return(y);
-}
+// 	while (buf[i] != '\0')
+// 	{
+// 		if (past_first && buf[i] == '\n')
+// 			y++;
+// 		else if (buf[i] == '\n')
+// 			past_first = 1;
+// 		i++;
+// 	}
+// 	return(y);
+// }
 
 t_grid		*set_grid_qualities(char *buf)
 {
@@ -98,10 +98,15 @@ t_grid		*set_grid_qualities(char *buf)
 	while (buf[len] != '\n')
 		len++;
 	i = len - 4;
+	while(i >= 0)
+	{
+		grid->rows += (buf[i--] - '0') * j;
+		j *= 10;
+	}
 	grid->square = buf[len - 1];
 	grid->obstacle = buf[len - 2];
 	grid->empty = buf[len - 3];
-	grid->rows = get_xdimen(buf);
+	grid->cols = get_xdimen(buf);
 	grid->table = get_grid(buf, grid->cols, grid->rows);
 	return (grid);
 }
