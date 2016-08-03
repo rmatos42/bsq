@@ -31,6 +31,7 @@ typedef struct		s_dynamic_result
 	char			square;
 }					t_dynamic_result;
 
+void	set_num(t_dynamic_result *dyn_arr, char c , int x, int y);
 t_dynamic_result *dynamic_array(char *buf);
 int		get_min(int **dynamic, int x, int y);
 t_dynamic_result	*set_qualities(char *buf);

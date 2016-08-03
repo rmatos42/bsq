@@ -47,73 +47,49 @@ int		get_xdimen(char *buf)
 t_dynamic_result	*dynamic_array(char *buf)
 {
 	t_dynamic_result *dyn_arr;
-	int ix;
-	int iy;
+	int x;
+	int y;
 	int past_first;
 	int	i;
-	clock_t start, end;
 
-	i = 0;
+	i = -1;
 	past_first = 0;
 	dyn_arr = set_qualities(buf);
-	iy = 0;
-	ix = 0;
-	dyn_arr->num_grid = (int **)malloc(sizeof(int *) * dyn_arr->rows);
-	dyn_arr->num_grid[0] = (int *)malloc(sizeof(int) * dyn_arr->cols);
-	start = clock();
-	while (buf[i] != '\0')
+	y = 0;
+	x = 0;
+	while (buf[++i] != '\0')
 	{
-		if (!past_first && buf[i] == '\n')
+		if (buf[i] == '\n')
 		{
-			ix = 0;
-			past_first = 1;
-		}
-		else if (past_first && buf[i] == '\n')
-		{
-			ix = 0;
-			dyn_arr->num_grid[++iy] = (int *)malloc(sizeof(int) * dyn_arr->cols);
+			if (past_first)
+				dyn_arr->num_grid[++y] = (int *)malloc(sizeof(int) * dyn_arr->cols);
+			else
+				past_first = 1;
+			x = 0;
 		}
 		else if (past_first)
-		{
-			if (ix == 0 || iy == 0)
-			{
-				if (buf[i] == dyn_arr->obstacle)
-					dyn_arr->num_grid[iy][ix] = 0;
-				else if (buf[i] == dyn_arr->empty)
-				{
-					dyn_arr->num_grid[iy][ix] = 1;
-					if (dyn_arr->num_grid[iy][ix] > dyn_arr->max_square_size)
-					{
-						dyn_arr->x_loc = ix;
-						dyn_arr->y_loc = iy;
-						dyn_arr->max_square_size = dyn_arr->num_grid[iy][ix];
-					}
-				}
-				ix++;
-			}
-			else
-			{
-				if (buf[i] == dyn_arr->obstacle)
-					dyn_arr->num_grid[iy][ix] = 0;
-				if (buf[i] == dyn_arr->empty)
-				{
-					dyn_arr->num_grid[iy][ix] = get_min(dyn_arr->num_grid, ix, iy) + 1;
-					if (dyn_arr->num_grid[iy][ix] > dyn_arr->max_square_size)
-					{
-						dyn_arr->x_loc = ix;
-						dyn_arr->y_loc = iy;
-						dyn_arr->max_square_size = dyn_arr->num_grid[iy][ix];
-					}
-				}
-				ix++;
-			}
-		}
-		i++;
-
+			set_num(dyn_arr, buf[i], x++, y);
 	}
-	end = clock();
-	printf("time: %f\n", (end-start)/(double)CLOCKS_PER_SEC);
 	return (dyn_arr);
+}
+
+void				set_num(t_dynamic_result *dyn_arr, char c , int x, int y)
+{
+	if (c == dyn_arr->obstacle)
+		dyn_arr->num_grid[y][x] = 0;
+	else if (c == dyn_arr->empty)
+	{
+		if (x == 0 || y == 0)
+			dyn_arr->num_grid[y][x] = 1;
+		else
+			dyn_arr->num_grid[y][x] = get_min(dyn_arr->num_grid, x, y) + 1;		
+		if (dyn_arr->num_grid[y][x] > dyn_arr->max_square_size)
+		{
+			dyn_arr->x_loc = x;
+			dyn_arr->y_loc = y;
+			dyn_arr->max_square_size = dyn_arr->num_grid[y][x];
+		}
+	}
 }
 
 t_dynamic_result	*set_qualities(char *buf)
@@ -140,5 +116,7 @@ t_dynamic_result	*set_qualities(char *buf)
 	dyn_arr->obstacle = buf[len - 2];
 	dyn_arr->empty = buf[len - 3];
 	dyn_arr->cols = get_xdimen(buf);
+	dyn_arr->num_grid = (int **)malloc(sizeof(int *) * dyn_arr->rows);
+	dyn_arr->num_grid[0] = (int *)malloc(sizeof(int) * dyn_arr->cols);
 	return (dyn_arr);
 }
