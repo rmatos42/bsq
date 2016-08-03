@@ -30,10 +30,13 @@ void	print_result(t_dynamic_result *dyn_arr)
 
 char	get_char(t_dynamic_result *dyn_arr, int x, int y)
 {
-	if (is_big_square(dyn_arr, x, y))
-		return (dyn_arr->square);
-	else if (dyn_arr->num_grid[y][x] > 0)
-		return (dyn_arr->empty);
+	if (dyn_arr->num_grid[y][x] > 0)
+	{
+		if (is_big_square(dyn_arr, x, y))
+			return (dyn_arr->square);
+		else
+			return (dyn_arr->empty);
+	}
 	else
 		return (dyn_arr->obstacle);
 }

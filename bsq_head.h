@@ -16,16 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-
-typedef struct		s_grid
-{
-	int				rows;
-	int				cols;
-	char			empty;
-	char			obstacle;
-	char			square;
-	char			**table;
-}					t_grid;
+# include <time.h>
 
 typedef struct		s_dynamic_result
 {
@@ -40,9 +31,9 @@ typedef struct		s_dynamic_result
 	char			square;
 }					t_dynamic_result;
 
-t_dynamic_result *dynamic_array(t_grid *grid);
+t_dynamic_result *dynamic_array(char *buf);
 int		get_min(int **dynamic, int x, int y);
-t_grid		*set_grid_qualities(char *buf);
+t_dynamic_result	*set_qualities(char *buf);
 int		get_xdimen(char *buf);
 char	**get_grid(char *buf, int x, int y);
 void	ft_putchar(char c);

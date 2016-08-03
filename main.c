@@ -21,6 +21,7 @@ int		main(void)
 	int bytes_read;
 	int	fd;
 	char buf[BUF_SIZE];
+	t_dynamic_result *dyn_arr;
 	fd = 0 + 1;
 	raw_input = (char *)malloc(sizeof(char) * 1);
 	raw_input[0] = '\0';
@@ -29,6 +30,12 @@ int		main(void)
 		buf[bytes_read] = '\0';
 		raw_input = buf_cat(raw_input, buf);
 	}
-	print_result(dynamic_array(set_grid_qualities(raw_input)));
+	dyn_arr = dynamic_array(raw_input);
+	printf("rows: %i\n", dyn_arr->rows);
+	printf("cols: %i\n", dyn_arr->cols);
+	printf("empty: %c\n", dyn_arr->empty);
+	printf("obstacle: %c\n", dyn_arr->obstacle);
+	printf("square: %c\n", dyn_arr->square);
+	print_result(dyn_arr);
 	return (0);
 }
