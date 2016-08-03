@@ -22,5 +22,5 @@ $(NAME):
 clean:
 		/bin/rm -f $(NAME)
 fclean: clean
-		/bin/rm -f -f $(NAME)
+		/bin/rm -f $(NAME)
 re: fclean all
