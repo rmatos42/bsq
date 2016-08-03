@@ -20,8 +20,6 @@ int		main(void)
 	char *raw_input;
 	int bytes_read;
 	int	fd;
-	t_grid *grid;
-	t_dynamic_result *dyn_arr;
 	char buf[BUF_SIZE];
 	fd = 0 + 1;
 	raw_input = (char *)malloc(sizeof(char) * 1);
@@ -31,10 +29,6 @@ int		main(void)
 		buf[bytes_read] = '\0';
 		raw_input = buf_cat(raw_input, buf);
 	}
-	grid = set_grid_qualities(raw_input);
-	dyn_arr = dynamic_array(grid);
-	printf("Biggest square: %i x %i\n", dyn_arr->max_square_size, dyn_arr->max_square_size);
-	printf("x: %i, y: %i\n", dyn_arr->x_loc, dyn_arr->y_loc);
-	print_result(dyn_arr, grid);
+	print_result(dynamic_array(set_grid_qualities(raw_input)));
 	return (0);
 }

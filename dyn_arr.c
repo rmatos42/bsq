@@ -32,6 +32,11 @@ t_dynamic_result *dynamic_array(t_grid *grid)
 
 	dyn_grid = malloc(sizeof(t_dynamic_result));
 	dyn_grid->max_square_size = 1;
+	dyn_grid->empty = grid->empty;
+	dyn_grid->square = grid->square;
+	dyn_grid->obstacle = grid->obstacle;
+	dyn_grid->rows = grid->rows;
+	dyn_grid->cols = grid->cols;
 	iy = 0;
 	dyn_grid->num_grid = (int **)malloc(sizeof(int *) * grid->rows);
 	while (iy < grid->rows)

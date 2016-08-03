@@ -12,30 +12,30 @@
 
 #include "bsq_head.h"
 
-void	print_result(t_dynamic_result *dyn_arr, t_grid *grid)
+void	print_result(t_dynamic_result *dyn_arr)
 {
 	int ix;
 	int iy;
 
 	iy = 0;
-	while (iy < grid->rows)
+	while (iy < dyn_arr->rows)
 	{
 		ix = 0;
-		while (ix < grid->cols)
-			ft_putchar(get_char(dyn_arr, grid, ix++, iy));
+		while (ix < dyn_arr->cols)
+			ft_putchar(get_char(dyn_arr, ix++, iy));
 		ft_putchar('\n');
 		iy++;
 	}
 }
 
-char	get_char(t_dynamic_result *dyn_arr, t_grid *grid, int x, int y)
+char	get_char(t_dynamic_result *dyn_arr, int x, int y)
 {
 	if (is_big_square(dyn_arr, x, y))
-		return (grid->square);
+		return (dyn_arr->square);
 	else if (dyn_arr->num_grid[y][x] > 0)
-		return (grid->empty);
+		return (dyn_arr->empty);
 	else
-		return (grid->obstacle);
+		return (dyn_arr->obstacle);
 }
 
 int		is_big_square(t_dynamic_result *dyn_arr, int x, int y)
